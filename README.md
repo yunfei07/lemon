@@ -6,14 +6,6 @@ Lemon 是一站式开源持续测试平台，支持接口测试、性能测试�
 采用全新技术（Vue3 + Go）技术栈进行开发，性能超强,测试引擎支持httprunner最新版本，支持任意扩展开发新的功能。
 
 
-### UI 展示
-
-![UI展示](image/example4.jpg)
-![UI展示](image/example1.jpg)
-![UI展示](image/example2.jpg)
-![UI展示](image/example3.jpg)
-
-
 ### 技术栈
 
 -   后端: [Gin](https://gin-gonic.com/)
