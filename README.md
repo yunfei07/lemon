@@ -8,10 +8,10 @@ Lemon 是一站式开源持续测试平台，支持接口测试、性能测试�
 
 ### UI 展示
 
-![UI展示](./image/example4.jpg)
-![UI展示](./image/example1.jpg)
-![UI展示](./image/example2.jpg)
-![UI展示](./image/example3.jpg)
+![UI展示](image/example4.jpg)
+![UI展示](image/example1.jpg)
+![UI展示](image/example2.jpg)
+![UI展示](image/example3.jpg)
 
 
 ### 技术栈
