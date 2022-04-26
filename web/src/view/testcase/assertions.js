@@ -1,0 +1,26 @@
+const assertion = [
+  { value: 'eq', label: '等于' },
+  { value: 'lt', label: '小于' },
+  { value: 'le', label: '小于等于' },
+  { value: 'gt', label: '大于' },
+  { value: 'ge', label: '大于等于' },
+  { value: 'ne', label: '不等于' },
+  { value: 'contains', label: '包含' },
+  { value: 'type_match', label: '等于' },
+  { value: 'startswitch', label: 'startswitch' },
+  { value: 'endswith', label: 'endswith' },
+  { value: 'len_eq', label: 'len_eq' },
+  { value: 'len_lt', label: 'len_lt' },
+  { value: 'count_lt', label: 'count_lt' },
+  { value: 'len_le', label: 'len_le' },
+  { value: 'count_le', label: 'count_le' },
+  { value: 'len_gt', label: 'len_gt' },
+  { value: 'count_gt', label: 'count_gt' },
+  { value: 'len_ge', label: 'len_ge' },
+  { value: 'count_ge', label: 'count_ge' },
+  { value: 'contained_by', label: 'contained_by' },
+  { value: 'str_eq', label: 'str_eq' },
+  { value: 'regex_match', label: 'regex_match' },
+]
+
+export default assertion
