@@ -18,7 +18,7 @@ require (
 	github.com/gookit/color v1.3.1
 	github.com/hashicorp/go-hclog v1.2.0 // indirect
 	github.com/hashicorp/yamux v0.0.0-20211028200310-0bc27b27de87 // indirect
-	github.com/httprunner/httprunner v3.1.8+incompatible
+	github.com/httprunner/httprunner v0.0.0-00010101000000-000000000000
 	github.com/jackc/pgx/v4 v4.15.0 // indirect
 	github.com/jinzhu/copier v0.3.5 // indirect
 	github.com/jordan-wright/email v0.0.0-20200824153738-3f5bafa1cd84
@@ -53,6 +53,4 @@ require (
 	nhooyr.io/websocket v1.8.6
 )
 
-replace (
-	github.com/httprunner/httprunner => github.com/yunfei07/httprunner v0.1.0-yf-beta
-)
+replace github.com/httprunner/httprunner => github.com/yunfei07/httprunner v0.1.1-yf-beta

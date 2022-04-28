@@ -3,10 +3,10 @@
     <div class="gva-search-box">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item label="接口名称">
-          <el-input v-model="searchInfo.name" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.name" placeholder="" />
         </el-form-item>
         <el-form-item label="接口协议">
-          <el-input v-model="searchInfo.protocol" placeholder="搜索条件" />
+          <el-input v-model="searchInfo.protocol" placeholder="" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="Search" @click="onSubmit">查询</el-button>
