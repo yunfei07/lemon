@@ -1,10 +1,10 @@
 package utils
 
 import (
-	"github.com/yunfei07/lemon/server/global"
-	systemReq "github.com/yunfei07/lemon/server/model/system/request"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
+	"github.com/yunfei07/lemon/server/global"
+	systemReq "github.com/yunfei07/lemon/server/model/system/request"
 )
 
 func GetClaims(c *gin.Context) (*systemReq.CustomClaims, error) {
@@ -56,6 +56,17 @@ func GetUserAuthorityId(c *gin.Context) string {
 	} else {
 		waitUse := claims.(*systemReq.CustomClaims)
 		return waitUse.AuthorityId
+	}
+}
+
+// 从Gin的Context中获取从jwt解析出来的当前登录的用户名称
+func GetUserName(c *gin.Context) string {
+	if claims,exists := c.Get("claims");!exists{
+		global.GVA_LOG.Error("从Gin的Context中获取从jwt解析出来的用户名称失败, 请检查路由是否使用jwt中间件!")
+		return "0"
+	}else{
+		waitUse := claims.(*systemReq.CustomClaims)
+		return waitUse.Username
 	}
 }
 

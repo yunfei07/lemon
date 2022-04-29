@@ -41,10 +41,20 @@
         <el-table-column label="用例名称" prop="name" />
         <el-table-column label="所属项目" prop="project" />
         <!-- <el-table-column label="所属服务" prop="server" width="120" /> -->
-        <el-table-column label="测试结果" prop="result" :formatter="formatResult" />
+        <el-table-column label="测试结果" prop="result">
+          <template #default="scope">
+            <span v-if="scope.row.result === 0">{{ formatResult(scope.row.result) }}</span>
+            <span v-if="scope.row.result === 1">
+              <el-tag size="small" type="success">{{ formatResult(scope.row.result) }}</el-tag>
+            </span>
+            <span v-if="scope.row.result === 2">
+              <el-tag size="small" type="danger">{{ formatResult(scope.row.result) }}</el-tag>
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column label="创建人" prop="creator" />
-        <el-table-column label="创建日期" width="180">
-          <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
+        <el-table-column label="更新日期" width="180">
+          <template #default="scope">{{ formatDate(scope.row.UpdatedAt) }}</template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="180">
           <template #default="scope">
@@ -102,7 +112,6 @@
           <el-input v-model="caseFormData.server" clearable placeholder="请输入接口所属服务" />
         </el-form-item>
         <el-form-item label="全局配置:" prop="config">
-          <!-- <el-input v-model="caseFormData.config" clearable placeholder="请输入全局配置" /> -->
           <el-select
             v-model="caseFormData.configId"
             placeholder="请选择全局配置文件"
@@ -133,7 +142,6 @@
           </el-table>
         </el-form-item>
       </el-form>
-
       <template #footer>
         <span class="dialog-footer">
           <el-button type="primary" icon="Plus" @click="openStepDialog">新增测试步骤</el-button>
@@ -200,7 +208,7 @@
                     <el-input v-model="item.key" placeholder="请输入请求参数名称" />
                   </el-col>
                   <el-col :span="4">
-                    <el-select v-model="item.type" placeholder="值类型" style="width: 100%" @change="handleSelectParamsType($event,index)">
+                    <el-select v-model="item.type" placeholder="类型" style="width: 100%" @change="handleSelectParamsType($event,index)">
                       <el-option
                         v-for="items in initStepData.type"
                         :key="items.value"
@@ -252,7 +260,7 @@
                     <el-input v-model="item.key" placeholder="请输入Variables名称" />
                   </el-col>
                   <el-col :span="4">
-                    <el-select v-model="item.type" placeholder="值类型" style="width: 100%" @change="handleSelectVarType($event,index)">
+                    <el-select v-model="item.type" placeholder="类型" style="width: 100%" @change="handleSelectVarType($event,index)">
                       <el-option
                         v-for="items in initStepData.type"
                         :key="items.value"
@@ -304,7 +312,7 @@
                     </el-select>
                   </el-col>
                   <el-col :span="4">
-                    <el-select v-model="item.type" placeholder="值类型" style="width: 100%" @change="handleSelectType($event,index)">
+                    <el-select v-model="item.type" placeholder="类型" style="width: 100%" @change="handleSelectType($event,index)">
                       <el-option
                         v-for="items in initStepData.type"
                         :key="items.value"
@@ -323,7 +331,6 @@
               </div>
               <el-button @click="addItem('validate')">添加Validate</el-button>
             </el-tab-pane>
-            <!-- <el-tab-pane label="Response" name="7">7</el-tab-pane> -->
           </el-tabs>
         </el-form-item>
         <el-form-item v-if="isTcp" label="请求数据:">
@@ -539,6 +546,7 @@ function openCaseDialog(key) {
   }
   caseType.value = key
   dialogCaseFormVisible.value = true
+  stepTableData.value = []
 }
 
 function closeCaseDialog() {
@@ -546,10 +554,10 @@ function closeCaseDialog() {
   dialogCaseFormVisible.value = false
 }
 
-function formatResult(row) {
-  if (row.result === true) {
+function formatResult(result) {
+  if (result === 1) {
     return '成功'
-  } else if (row.result === false) {
+  } else if (result === 2) {
     return '失败'
   } else {
     return ''
@@ -716,7 +724,7 @@ function addItem(key) {
       extractIndex.value++
       break
     case 'validate':
-      dynamicForm.value.validate.push({ index: validateIndex.value + 1, check: '', assert: '', expect: '' })
+      dynamicForm.value.validate.push({ index: validateIndex.value + 1, check: '', assert: 'eq', expect: '', type: 'string' })
       validateIndex.value++
       break
     default:
@@ -803,9 +811,7 @@ function saveStep() {
   if (stepType.value === 'create') {
     stepIndex.value = stepTableData.value.length + 1
     step.value.index = stepIndex.value
-    console.log(step.value)
     stepTableData.value.push(step.value)
-    console.log(stepTableData.value)
     stepIndex.value++
   }
 
@@ -869,9 +875,6 @@ function handleSelectType(key, index) {
     case 'string':
       dynamicForm.value.validate[index].expect = String(dynamicForm.value.validate[index].expect)
       break
-    case 'func':
-      dynamicForm.value.validate[index].expect = String(dynamicForm.value.validate[index].expect)
-      break
     default:
       dynamicForm.value.validate[index].expect = String(dynamicForm.value.validate[index].expect)
       break
@@ -889,9 +892,6 @@ function handleSelectVarType(key, index) {
     case 'string':
       dynamicForm.value.variables[index].value = String(dynamicForm.value.variables[index].value)
       break
-    case 'func':
-      dynamicForm.value.variables[index].value = String(dynamicForm.value.variables[index].value)
-      break
     default:
       dynamicForm.value.variables[index].value = String(dynamicForm.value.variables[index].value)
       break
@@ -907,9 +907,6 @@ function handleSelectParamsType(key, index) {
       dynamicForm.value.params[index].value = parseFloat(dynamicForm.value.params[index].value)
       break
     case 'string':
-      dynamicForm.value.params[index].value = String(dynamicForm.value.params[index].value)
-      break
-    case 'func':
       dynamicForm.value.params[index].value = String(dynamicForm.value.params[index].value)
       break
     default:

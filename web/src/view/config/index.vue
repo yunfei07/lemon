@@ -73,14 +73,14 @@
           prop="base_url"
           width="420"
         />
-        <el-table-column align="center" label="日期" width="180">
+        <el-table-column align="center" label="更新日期" width="180">
           <template #default="scope">
-            {{ formatDate(scope.row.CreatedAt) }}
+            {{ formatDate(scope.row.UpdatedAt) }}
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template #default="scope">
-            <el-button
+            <!-- <el-button
               type="text"
               icon="Document"
               size="small"
@@ -88,7 +88,7 @@
               @click="updateSettings(scope.row)"
             >
               详情
-            </el-button>
+            </el-button> -->
             <el-button
               type="text"
               icon="Edit"
@@ -129,7 +129,6 @@
       <el-form
         ref="configForm"
         :model="formData"
-        :rules="rules"
         label-position="right"
         label-width="100px"
       >
@@ -154,10 +153,10 @@
         >
           <el-row :gutter="10" style="padding:0 0">
             <el-col :span="7">
-              <el-input v-model="config.key" placeholder="请输入变量名" />
+              <el-input v-model="config.key" placeholder="变量名" />
             </el-col>
             <el-col :span="5">
-              <el-select v-model="config.type" placeholder="值类型" style="width: 100%" @change="handleSelectVarType($event,index)">
+              <el-select v-model="config.type" placeholder="类型" style="width: 100%" @change="handleSelectVarType($event,index)">
                 <el-option
                   v-for="items in initType"
                   :key="items.value"
@@ -167,7 +166,7 @@
               </el-select>
             </el-col>
             <el-col :span="8">
-              <el-input v-model="config.value" placeholder="请输入变量值" />
+              <el-input v-model="config.value" placeholder="变量值" />
             </el-col>
             <el-col :span="4">
               <el-button @click.prevent="removeVariables(config)">
@@ -273,7 +272,6 @@ async function onDelete() {
 const configForm = ref(null)
 const title = ref('新增配置')
 const dialogFormVisible = ref(false)
-// const varType = ref('string')
 const initType = ref(
   [
     { value: 'string', label: '字符串' },
@@ -289,6 +287,7 @@ function initForm() {
     base_url: '',
     variables: {}
   }
+  dynamicForm.value.config = []
 }
 
 function openDialog(key) {
@@ -392,7 +391,7 @@ function addVariables() {
     id: index.value + 1,
     key: '',
     value: '',
-    varType: ''
+    type: 'string'
   })
   index.value++
 }

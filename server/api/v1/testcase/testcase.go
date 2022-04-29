@@ -27,6 +27,7 @@ var testcaseService = service.ServiceGroupApp.TestCaseServiceGroup.TestcaseServi
 func (testcaseApi *TestcaseApi) CreateTestCase(c *gin.Context){
 	var testcase tc.TestCase
 	_ = c.ShouldBindJSON(&testcase)
+	testcase.Creator = utils.GetUserName(c)
 	if err := testcaseService.CreateTestCase(testcase);err != nil {
 		global.GVA_LOG.Error("创建失败!", zap.Any("err", err))
 		response.FailWithMessage("创建失败", c)
@@ -86,6 +87,7 @@ func (testcaseApi *TestcaseApi) DeleteTestStepByIds(c *gin.Context){
 func (testcaseApi *TestcaseApi) UpdateTestCase(c *gin.Context){
 	var testcase tc.TestCase
 	_ = c.ShouldBindJSON(&testcase)
+	testcase.Creator = utils.GetUserName(c)
 	if err := testcaseService.UpdateTestCase(testcase);err != nil {
 		global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
 		response.FailWithMessage("更新失败", c)

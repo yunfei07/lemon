@@ -4,7 +4,6 @@
       <div class="inner">
         <img src="../../assets/notFound.png">
         <p>页面被神秘力量吸走了（如果您是开源版请联系我们修复）</p>
-        <p style="font-size:18px;line-height:40px;">常见问题为当前此角色无当前路由，如果确定要使用本路由，请到角色管理进行分配</p>
       </div>
     </div>
   </div>

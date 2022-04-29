@@ -7,6 +7,7 @@ import (
 	"github.com/yunfei07/lemon/server/model/testcase"
 	searchReq "github.com/yunfei07/lemon/server/model/testcase/request"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type TestcaseService struct {
@@ -18,11 +19,14 @@ func (testcaseService *TestcaseService) CreateTestCase(testcase testcase.TestCas
 }
 
 func (testcaseService *TestcaseService) DeleteTestCase(testcase testcase.TestCase) (err error){
-	err = global.GVA_DB.Delete(&testcase).Error
-	//err = global.GVA_DB.Select(clause.Associations).Delete(&testcase).Error 删除时，删除关联记录
+	err = global.GVA_DB.Where("id = ?",testcase.ID).Preload("TestSteps",func(db *gorm.DB) *gorm.DB {return db.Order("test_steps.index")}).Find(&testcase).Error
+	for _,v := range testcase.TestSteps {
+		err = global.GVA_DB.Where("step_id = ?",v.StepId).Delete(&testcase.TestSteps).Error
+	}
+	// 删除时，删除关联记录
+	err = global.GVA_DB.Select(clause.Associations).Delete(&testcase).Error
 	return err
 }
-
 
 func (testcaseService *TestcaseService) DeleteTestCaseByIds(ids request.IdsReq) (err error){
 	err = global.GVA_DB.Delete(&[]testcase.TestCase{},"id in ?",ids.Ids).Error
@@ -103,5 +107,9 @@ func (testcaseService *TestcaseService) RunTestCase(testcase testcase.TestCase)(
 }
 
 func(testcaseService *TestcaseService) UpdateTestResult(testcase testcase.TestCase,result bool){
-	global.GVA_DB.Model(&testcase).Where("id = ?",testcase.ID).Update("result",result)
+	status := 2
+	if result {
+		status = 1
+	}
+	global.GVA_DB.Model(&testcase).Where("id = ?",testcase.ID).Update("result",status)
 }

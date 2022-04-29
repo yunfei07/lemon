@@ -3,7 +3,7 @@
 
 ### Lemon 的优势
 
-采用全新技术（Vue3 + Go）技术栈进行开发，性能超强,测试引擎支持httprunner最新版本，支持任意扩展开发新的功能。
+采用全新（Vue3 + Go）技术栈进行开发，性能超强,测试引擎支持httprunner最新版本，支持任意扩展开发新的功能。
 
 
 ### UI展示
@@ -40,18 +40,15 @@
 
 ### 交流方式
 
-- 关注微信公众号:TalkPython，第一时间获得最新信息。
 - 添加微信号(yangyunfei07)，加群交流共建。
 
 
 ### RoadMap
 
-- [] 测试任务管理
-- [] 支持性能测试
-- [] 接口测试报告
-- [] 性能测试报告
-- [] 测试用例管理
-- [] Mock Server
+
+### 问题和建议
+
+问题和建议反馈：[Github Issues](https://github.com/yunfei07/lemon/issues/new)
 
 
 ### 致谢
