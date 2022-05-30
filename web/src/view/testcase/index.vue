@@ -519,6 +519,7 @@ const caseFormData = ref({
   teststeps: [],
   result: '',
 })
+const stepTableData = ref([])
 
 function initCaseForm() {
   caseFormData.value = {
@@ -529,7 +530,7 @@ function initCaseForm() {
     teststeps: [],
     result: '',
   }
-  // stepTableData.value = []
+  stepTableData.value = []
 }
 
 function openCaseDialog(key) {
@@ -546,7 +547,6 @@ function openCaseDialog(key) {
   }
   caseType.value = key
   dialogCaseFormVisible.value = true
-  stepTableData.value = []
 }
 
 function closeCaseDialog() {
@@ -631,7 +631,6 @@ function onDelCase(row) {
     }
   })
 }
-
 async function editCase(row) {
   const res = await getTestCase({ ID: row.ID })
   if (res.code === 0) {
@@ -665,7 +664,7 @@ const stepFormData = ref({
   method: 'GET',
   protocol: 'http',
 })
-const stepTableData = ref([])
+
 const isShow = ref(true)
 const isHttp = ref(true)
 const isTcp = ref(false)

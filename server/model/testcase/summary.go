@@ -58,7 +58,7 @@ type testCaseInOut struct {
 
 type stepData struct {
 	Name        string                 `json:"name" yaml:"name"`                                   // step name
-	StepId      int                    `json:"step_id"`                                            // step ID
+	StepId      int                    `json:"stepId"`                                             // step ID
 	StepType    string                 `json:"step_type" yaml:"step_type"`                         // step type, testcase/request/transaction/rendezvous
 	Success     bool                   `json:"success" yaml:"success"`                             // step execution result
 	Elapsed     int64                  `json:"elapsed_ms" yaml:"elapsed_ms"`                       // step execution time in millisecond(ms)

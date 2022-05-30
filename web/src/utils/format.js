@@ -31,7 +31,7 @@ export const getDictFunc = async(type) => {
 // arr -> obj
 export const Arr2Obj = (arr) => {
   var object = arr.reduce(
-    (obj, item) => Object.assign(obj, { [item.key]: item.value }), {})
+    (obj, item) => Object.assign(obj, { [item.name]: item.value }), {})
   return object
 }
 
@@ -40,7 +40,7 @@ export const Obj2Arr = (obj) => {
   var keys = Object.keys(obj)
   var arr = []
   for (var i = 0; i < keys.length; i++) {
-    arr.push({ 'key': keys[i], 'value': obj[keys[i]], 'index': i + 1 })
+    arr.push({ 'name': keys[i], 'value': obj[keys[i]], 'index': i + 1 })
   }
   return arr
 }
@@ -51,25 +51,24 @@ export const Obj2ArrType = (obj) => {
   var arr = []
   for (var i = 0; i < keys.length; i++) {
     if (typeof (obj[keys[i]]) === 'string') {
-      arr.push({ 'key': keys[i], 'value': obj[keys[i]], 'index': i + 1, 'type': 'string' })
+      arr.push({ 'name': keys[i], 'value': obj[keys[i]], 'type': 'string' })
     }
     if (typeof (obj[keys[i]]) === 'number') {
       if (obj[keys[i]] !== parseInt(obj[keys[i]])) {
         arr.push({
-          key: keys[i],
+          name: keys[i],
           value: obj[keys[i]],
-          index: i + 1,
           type: 'float',
         })
       } else {
         arr.push({
-          key: keys[i],
+          name: keys[i],
           value: obj[keys[i]],
-          index: i + 1,
           type: 'int',
         })
       }
     }
   }
+  console.log(arr)
   return arr
 }

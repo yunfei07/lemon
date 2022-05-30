@@ -5,11 +5,6 @@ const routes = [{
   redirect: '/login'
 },
 {
-  path: '/init',
-  name: 'Init',
-  component: () => import('@/view/init/index.vue')
-},
-{
   path: '/login',
   name: 'Login',
   component: () => import('@/view/login/index.vue')

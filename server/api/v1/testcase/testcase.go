@@ -3,7 +3,7 @@ package testcase
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/httprunner/httprunner/hrp"
+	"github.com/httprunner/httprunner/v4/hrp"
 	"github.com/yunfei07/lemon/server/global"
 	"github.com/yunfei07/lemon/server/model/common/request"
 	"github.com/yunfei07/lemon/server/model/common/response"
@@ -145,11 +145,9 @@ func (TestcaseApi *TestcaseApi) RunTestCase(c *gin.Context){
 			global.GVA_LOG.Error("执行失败!", zap.Any("err", er))
 			response.FailWithMessage("执行失败", c)
 		}else{
-
 			runner := hrp.NewRunner(nil).
 				SetFailfast(!continueOnFailure)
 			txt,_ := json.Marshal(result)
-
 			if pluginLogOn {
 				runner.SetPluginLogOn()
 			}

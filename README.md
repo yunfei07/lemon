@@ -8,10 +8,10 @@
 
 ### UI展示
 
-![UI01](image/ui1.jpg)
-![UI02](image/ui2.jpg)
-![UI03](image/ui3.jpg)
-![UI04](image/ui4.jpg)
+![UI01](docs/assets/ui1.jpg)
+![UI02](docs/assets/ui2.jpg)
+![UI03](docs/assets/ui3.jpg)
+![UI04](docs/assets/ui4.jpg)
 
 
 ### 部署方式
