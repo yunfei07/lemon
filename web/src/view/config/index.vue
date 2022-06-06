@@ -23,7 +23,7 @@
         <el-popover v-model:visible="deleteVisible" placement="top" width="160">
           <p>确定要删除吗？</p>
           <div style="text-align: right; margin-top: 8px">
-            <el-button type="text" @click="deleteVisible = false">
+            <el-button type="primary" link @click="deleteVisible = false">
               取消
             </el-button>
             <el-button type="primary" @click="onDelete">
@@ -49,19 +49,10 @@
         </el-table-column>
         <el-table-column align="center" label="操作">
           <template #default="scope">
-            <!-- <el-button
-              type="text"
-              icon="Document"
-              size="small"
-              class="table-button"
-              @click="updateSettings(scope.row)"
-            >
-              详情
-            </el-button> -->
-            <el-button type="text" icon="Edit" size="small" class="table-button" @click="editConfig(scope.row)">
+            <el-button type="primary" link icon="Edit" size="small" class="table-button" @click="editConfig(scope.row)">
               编辑
             </el-button>
-            <el-button type="text" icon="Delete" size="small" @click="deleteConf(scope.row)">
+            <el-button type="primary" link icon="Delete" size="small" @click="deleteConf(scope.row)">
               删除
             </el-button>
           </template>

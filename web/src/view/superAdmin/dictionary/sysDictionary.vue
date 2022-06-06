@@ -85,13 +85,13 @@
             <el-button
               size="small"
               icon="document"
-              type="text"
+              type="primary" link
               @click="toDetile(scope.row)"
             >详情</el-button>
             <el-button
               size="small"
               icon="edit"
-              type="text"
+              type="primary" link
               @click="updateSysDictionaryFunc(scope.row)"
             >变更</el-button>
             <el-popover
@@ -103,7 +103,7 @@
               <div style="text-align: right; margin-top: 8px">
                 <el-button
                   size="small"
-                  type="text"
+                  type="primary" link
                   @click="scope.row.visible = false"
                 >取消</el-button>
                 <el-button
@@ -114,7 +114,7 @@
               </div>
               <template #reference>
                 <el-button
-                  type="text"
+                  type="primary" link
                   icon="delete"
                   size="small"
                   style="margin-left: 10px"

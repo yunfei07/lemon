@@ -37,19 +37,19 @@
           <template #default="scope">
             <el-button
               size="small"
-              type="text"
+              type="primary" link
               icon="plus"
               @click="addMenu(scope.row.ID)"
             >添加子菜单</el-button>
             <el-button
               size="small"
-              type="text"
+              type="primary" link
               icon="edit"
               @click="editMenu(scope.row.ID)"
             >编辑</el-button>
             <el-button
               size="small"
-              type="text"
+              type="primary" link
               icon="delete"
               @click="deleteMenu(scope.row.ID)"
             >删除</el-button>

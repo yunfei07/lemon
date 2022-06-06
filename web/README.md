@@ -1,4 +1,4 @@
-# taro-web-vue-page
+# web
 
 ## Project setup
 ```

@@ -23,7 +23,7 @@
         <el-popover v-model:visible="deleteVisible" placement="top" width="160">
           <p>确定要删除吗？</p>
           <div style="text-align: right; margin-top: 8px;">
-            <el-button size="small" type="text" @click="deleteVisible = false">取消</el-button>
+            <el-button size="small" type="primary" link @click="deleteVisible = false">取消</el-button>
             <el-button size="small" type="primary" @click="onDelete">确定</el-button>
           </div>
           <template #reference>
@@ -94,11 +94,11 @@
             <el-popover v-model:visible="scope.row.visible" placement="top" width="160">
               <p>确定要删除吗？</p>
               <div style="text-align: right; margin-top: 8px;">
-                <el-button size="small" type="text" @click="scope.row.visible = false">取消</el-button>
+                <el-button size="small" type="primary" link @click="scope.row.visible = false">取消</el-button>
                 <el-button size="small" type="primary" @click="deleteSysOperationRecordFunc(scope.row)">确定</el-button>
               </div>
               <template #reference>
-                <el-button icon="delete" size="small" type="text" @click="scope.row.visible = true">删除</el-button>
+                <el-button icon="delete" size="small" type="primary" link @click="scope.row.visible = true">删除</el-button>
               </template>
             </el-popover>
           </template>
