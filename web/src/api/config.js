@@ -16,11 +16,11 @@ export const updateConfig = (data) => {
   })
 }
 
-export const getConfigList = (params) => {
+export const getConfigList = (data) => {
   return service({
     url: '/config/getConfigList',
-    method: 'get',
-    params,
+    method: 'post',
+    data,
   })
 }
 

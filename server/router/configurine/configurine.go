@@ -21,7 +21,7 @@ func (config *ConfigRouter) InitConfigRouter(Router *gin.RouterGroup){
 	{
 		configRouterWithoutRecord.GET("getConfigByName",configApi.GetConfigByName)
 		configRouterWithoutRecord.GET("getConfigById",configApi.GetConfigById)
-		configRouterWithoutRecord.GET("getConfigList",configApi.GetConfigList)
+		configRouterWithoutRecord.POST("getConfigList",configApi.GetConfigList)
 		configRouterWithoutRecord.GET("getAllConfig",configApi.GetAllConfig)
 	}
 }

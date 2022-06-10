@@ -85,7 +85,7 @@ func (testcaseService *TestcaseService) GetTestCaseInfoList(info searchReq.TestC
 	var testcases []testcase.TestCase
 	// 如果有条件搜索 下方会自动创建搜索语句
 	if info.Name != "" {
-		db = db.Where("`name` = ?",info.Name)
+		db = db.Where("`name` LIKE ?","%" + info.Name + "%")
 	}
 	err = db.Count(&total).Error
 	if err!=nil {

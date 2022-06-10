@@ -55,7 +55,7 @@ func (configService *ConfigService) GetConfigList(info searchReq.ConfigSearch)(e
 	var config []configurine.Config
 
 	if info.Name != "" {
-		db = db.Where("`name` = ?",info.Name)
+		db = db.Where("`name` LIKE ?","%" + info.Name+ "%")
 	}
 
 	err = db.Count(&total).Error

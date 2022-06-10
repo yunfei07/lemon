@@ -89,7 +89,7 @@ func (ConfigApi *ConfigApi) GetAllConfig(c *gin.Context){
 
 func (configApi *ConfigApi) GetConfigList(c *gin.Context){
 	var pageInfo configReq.ConfigSearch
-	_ = c.ShouldBindQuery(&pageInfo)
+	_ = c.ShouldBindJSON(&pageInfo)
 	if err, list, total := configService.GetConfigList(pageInfo); err != nil {
 		global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
 		response.FailWithMessage("获取失败", c)

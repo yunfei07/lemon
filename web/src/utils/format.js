@@ -69,6 +69,5 @@ export const Obj2ArrType = (obj) => {
       }
     }
   }
-  console.log(arr)
   return arr
 }

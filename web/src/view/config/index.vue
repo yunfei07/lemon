@@ -75,42 +75,40 @@
         <el-form-item label="环境配置:">
           <el-tabs v-model="activeName" class="demo-tabs" style="width: 100%;" @tab-click="handleClick">
             <el-tab-pane label="变量" name="variables">
-              <vxe-table border show-overflow keep-source
-              class="vartable-style"
-              :data="dynamicForm.variable"
-              :column-config="{ resizable: false }"
-              :edit-config="{ trigger: 'click', mode: 'cell', showIcon: false }"
-              size="mini"
-              @edit-closed="handleAddVar"
-              ref="Table">
+              <vxe-table border show-overflow keep-source class="vartable-style" :data="dynamicForm.variable"
+                :column-config="{ resizable: false }" :edit-config="{ trigger: 'click', mode: 'cell', showIcon: false }"
+                size="mini" @edit-closed="handleAddVar" ref="Table">
                 <vxe-column type="seq" width="60"></vxe-column>
                 <vxe-column field="name" title="变量名" :edit-render="{autofocus: '.vxe-input--inner'}" width="120">
                   <template #edit="{ row }">
                     <vxe-input v-model="row.name" type="text"></vxe-input>
                   </template>
                 </vxe-column>
-                <vxe-column field="type" title="变量类型" :edit-render="{}" width="120" >
+                <vxe-column field="type" title="变量类型" :edit-render="{}" width="120">
                   <template #default="{ row }">
-                     <el-select v-model="row.type" transfer placeholder="选择变量类型" @change="handleSelectVarType(row)">
-                      <el-option v-for="item in initType" :key="item.value" :label="item.label" :value="item.value"/>
+                    <el-select v-model="row.type" transfer placeholder="选择变量类型" @change="handleSelectVarType(row)">
+                      <el-option v-for="item in initType" :key="item.value" :label="item.label" :value="item.value" />
                     </el-select>
                   </template>
                 </vxe-column>
                 <vxe-column field="value" title="变量值" :edit-render="{autofocus: '.vxe-input--inner'}">
-                <template #default="{ row }">
+                  <template #default="{ row }">
                     <span>{{ row.value }}</span>
-                    <div style="float:right" v-if="row.name.length > 0" @click="handleDeleteVar(row)">
-                      <el-icon>
-                        <Close />
-                      </el-icon>
-                    </div>
                   </template>
                   <template #edit="{ row }">
                     <vxe-input v-model="row.value" type="text"></vxe-input>
                   </template>
                 </vxe-column>
+                <vxe-column width="60" title="操作" align="center">
+                  <template #default="{ row }">
+                      <el-icon>
+                        <Delete @click="handleDeleteVar(row)" />
+                      </el-icon>
+                  </template>
+                </vxe-column>
               </vxe-table>
             </el-tab-pane>
+            <!-- <el-tab-pane label="参数化" name="params"></el-tab-pane> -->
           </el-tabs>
         </el-form-item>
       </el-form>
@@ -233,7 +231,6 @@ async function handleAddVar(){
 }
 
 async function handleDeleteVar(row){
-  console.log(row)
   const $table = Table.value
   await $table.remove(row)
 }
