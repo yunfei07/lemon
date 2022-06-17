@@ -3,7 +3,7 @@
     <div class="big">
       <div class="inner">
         <img src="../../assets/notFound.png">
-        <p>页面被神秘力量吸走了（如果您是开源版请联系我们修复）</p>
+        <p>你好欢迎将反馈提交至项目的issue或者加微信群反馈</p>
       </div>
     </div>
   </div>

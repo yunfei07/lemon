@@ -23,23 +23,25 @@
       v-if="btnShow"
       class="user-box"
     >
-      <el-icon class="reload" :class="[reload ? 'reloading' : '']" @click="handleReload">
-        <refresh />
-      </el-icon>
+      <div class="gvaIcon gvaIcon-refresh"  :class="[reload ? 'reloading' : '']" @click="handleReload"></div>
     </div>
     <div
       v-if="btnShow"
       class="user-box"
     >
-      <el-icon class="search-icon" @click="showSearch">
-        <search />
-      </el-icon>
+      <div class="gvaIcon gvaIcon-search"  @click="showSearch"></div>
     </div>
     <div
       v-if="btnShow"
       class="user-box"
     >
       <Screenfull class="search-icon" :style="{cursor:'pointer'}" />
+    </div>
+    <div
+      v-if="btnShow"
+      class="user-box"
+    >
+     <div class="gvaIcon gvaIcon-customer-service"  @click="toService"></div>
     </div>
   </div>
 </template>
@@ -92,6 +94,10 @@ const handleReload = () => {
     reload.value = false
   }, 500)
 }
+const toService = () => {
+  window.open('https://support.qq.com/product/371961')
+}
+
 </script>
 <style scoped lang="scss">
 .reload{
