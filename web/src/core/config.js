@@ -3,10 +3,12 @@
  */
 
 const config = {
-  appName: 'Lemon 测试平台',
-  appLogo: 'src/assets/logo.png',
-  showViteLogo: true
-}
+  appName: "Lemon 测试平台",
+  appLogo: "src/assets/logo.png",
+  appBrand: "src/assets/login_right.png",
+  appDesc: "LEMON 一站式测试方案解决平台",
+  showViteLogo: true,
+};
 
 export const viteLogo = (env) => {
   if (config.showViteLogo) {

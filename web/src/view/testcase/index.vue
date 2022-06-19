@@ -56,7 +56,7 @@
         <el-table-column label="更新日期" width="180">
           <template #default="scope">{{ formatDate(scope.row.UpdatedAt) }}</template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="180">
+        <el-table-column align="center" label="操作" width="200">
           <template #default="scope">
             <el-button
               v-if="scope.row.protocol !== 'rpc'"

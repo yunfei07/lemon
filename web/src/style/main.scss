@@ -8,6 +8,7 @@
  */
 
 @import '@/style/basics.scss';
+@import '@/style/iconfont.css';
 html {
     line-height: 1.15;
     /* 1 */
@@ -419,12 +420,6 @@ template {
 HTML,
 body,
 div,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 ul,
 ol,
 dl,
@@ -456,9 +451,6 @@ address,
 caption,
 cite,
 code,
-dfn,
-em,
-strong,
 th,
 var {
     font-style: normal;
@@ -584,10 +576,12 @@ li {
             line-height: $height-aside-tilte;
             text-align: center;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             .logoimg {
                 width: $width-aside-img;
                 height: $height-aside-img;
-                vertical-align: middle;
                 background: #fff;
                 border-radius: 50%;
                 padding: 3px;
@@ -597,23 +591,19 @@ li {
                 color: #fff;
                 font-weight: 600;
                 font-size: 20px;
-                vertical-align: middle;
                 padding-left: 10px;
             }
         }
     }
     .aside {
-        .el-menu-item {
-            >div {
-                padding: 0 15px !important;
+        .el-menu--collapse {
+            >.el-menu-item{
+                display: flex;
+                justify-content: center;
             }
         }
         .el-sub-menu {
             .el-menu {
-                .el-menu-item {
-                    height: 44px;
-                    line-height: 44px;
-                }
                 .is-active {
                     // 关闭三级菜单二级菜单样式
                     ul {
@@ -627,18 +617,6 @@ li {
                     }
                 }
             }
-        }
-        .el-menu-item:focus,
-        .el-menu-item:hover {
-            background-color: transparent;
-        }
-        .el-menu-item:hover i,
-        .el-menu-item:hover span {
-            color: #fff;
-        }
-        .el-sub-menu__title:hover i,
-        .el-sub-menu__title:hover span {
-            color: #fff;
         }
     }
     .hideside {
@@ -665,8 +643,6 @@ li {
     }
     .main-cont.el-main {
         min-height: 100%;
-        -webkit-transition: margin-left .28s;
-        transition: margin-left .28s;
         margin-left: $width-aside;
         position: relative;
     }
@@ -719,7 +695,6 @@ li {
         }
         th {
             padding: 6px 0;
-            background: #F7FBFF;
             .cell {
                 color: rgba($color: #000000, $alpha: 0.85);
                 font-size: 14px;
@@ -739,6 +714,7 @@ li {
             border-bottom: 1px solid #e8e8e8;
         }
         th.is-leaf {
+            background: #F7FBFF;
             border-bottom: none;
         }
     }

@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	_ "github.com/yunfei07/lemon/server/docs"
 	"github.com/yunfei07/lemon/server/global"
 	"github.com/yunfei07/lemon/server/middleware"
 	"github.com/yunfei07/lemon/server/router"
