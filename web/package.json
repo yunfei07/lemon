@@ -28,7 +28,7 @@
     "vue": "^3.2.31",
     "vue-router": "^4.0.0-0",
     "vue3-json-editor": "^1.1.4",
-    "vxe-table": "^4.2.4-beta.2",
+    "vxe-table": "^4.2.8",
     "xe-utils": "^3.5.4"
   },
   "devDependencies": {

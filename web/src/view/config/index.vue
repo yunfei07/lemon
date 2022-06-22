@@ -86,9 +86,9 @@
                 </vxe-column>
                 <vxe-column field="type" title="变量类型" :edit-render="{}" width="120">
                   <template #default="{ row }">
-                    <el-select v-model="row.type" transfer placeholder="选择变量类型" @change="handleSelectVarType(row)">
+                    <!-- <el-select v-model="row.type" transfer placeholder="选择变量类型" @change="handleSelectVarType(row)">
                       <el-option v-for="item in initType" :key="item.value" :label="item.label" :value="item.value" />
-                    </el-select>
+                    </el-select> -->
                   </template>
                 </vxe-column>
                 <vxe-column field="value" title="变量值" :edit-render="{autofocus: '.vxe-input--inner'}">
@@ -108,7 +108,9 @@
                 </vxe-column>
               </vxe-table>
             </el-tab-pane>
-            <!-- <el-tab-pane label="参数化" name="params"></el-tab-pane> -->
+            <el-tab-pane label="参数化数据驱动" name="params">
+              <Parameterize />
+            </el-tab-pane>
           </el-tabs>
         </el-form-item>
       </el-form>
@@ -133,6 +135,7 @@ import { createConfig, updateConfig, getConfigList, getConfigById, deleteConfig,
 import { formatDate, Arr2Obj, Obj2ArrType } from '@/utils/format'
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import Parameterize from './components/params.vue'
 
 const type = ref("")
 const formData = ref({ name: '', base_url: '', variables: {} })
