@@ -7,6 +7,8 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import 'xe-utils'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
+import VXETablePluginElement from "vxe-table-plugin-element";
+import "vxe-table-plugin-element/dist/style.css";
 // 前端初始化相关内容
 import './core/init'
 // 引入封装的router
@@ -19,6 +21,7 @@ import App from './App.vue'
 
 const app = createApp(App)
 app.config.productionTip = false
+VXETable.use(VXETablePluginElement);
 
 app
   .use(run)
@@ -27,6 +30,6 @@ app
   .use(router)
   .use(VXETable)
   .use(ElementPlus, { locale: zhCn })
-  .mount('#app')
+  .mount("#app");
 
 export default app

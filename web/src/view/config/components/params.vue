@@ -1,16 +1,31 @@
 <template>
   <vxe-toolbar>
     <template #buttons>
-      <el-button size="small" type="primary" style="float:right">设置全局策略</el-button>
+      <el-form :inline="true" class="demo-form-inline" size="default">
+        <el-form-item label="全局策略">
+          <el-select placeholder="请选择参数化取值策略" style="height:32px !important">
+           <el-option
+            v-for="item in initType"
+            :key="item.value"
+            :value="item.value"
+            :label="item.label"
+          ></el-option>
+          </el-select>
+        </el-form-item>
+         <el-form-item label="迭代次数">
+          <el-input placeholder="有效的迭代次数为 limit > 0，如果 limit = 0 表示默认，如果 limit < 0，则表示无限制迭代次数。" />
+        </el-form-item>
+      </el-form>
     </template>
   </vxe-toolbar>
   <vxe-table
     border
     show-overflow
+    keep-source
     :column-config="{ resizable: false }"
     :data="demo1.tableData"
     :edit-config="{ trigger: 'click', mode: 'cell', showIcon: false }"
-    size="mini"
+     ref="Table"
   >
     <vxe-column type="seq" width="60"></vxe-column>
     <vxe-column
@@ -22,38 +37,29 @@
         <vxe-input v-model="row.name" type="text"></vxe-input>
       </template>
     </vxe-column>
-    <vxe-column field="sex" title="驱动类型" :edit-render="{}">
-      <template #default="{ row }">
-        <span>{{ formatSex(row.sex) }}</span>
-      </template>
-      <template #edit="{ row }">
-        <el-select v-model="row.sex" size="small">
-          <el-option
-            v-for="item in sexList1"
-            :key="item.value"
-            :value="item.value"
-            :label="item.label"
-          ></el-option>
-        </el-select>
-      </template>
-    </vxe-column>
-    <vxe-column field="role" title="参数值" :edit-render="{}">
+    <vxe-column field="value" title="取值表达式" :edit-render="{}">
       <template #edit="{ row }">
         <vxe-input
-          v-model="row.role"
+          v-model="row.value"
           type="text"
           placeholder="请输入昵称"
         ></vxe-input>
       </template>
     </vxe-column>
-     <vxe-column field="sex" title="驱动策略" :edit-render="{}">
+    <vxe-column
+      field="strategies"
+      title="取值策略"
+      :edit-render="{}"
+      width="120"
+      align="center"
+    >
       <template #default="{ row }">
-        <span>{{ formatSex(row.sex) }}</span>
+        <span>{{ formatOrder(row.type) }}</span>
       </template>
       <template #edit="{ row }">
-        <el-select v-model="row.sex" size="small">
+        <el-select v-model="row.type" size="small">
           <el-option
-            v-for="item in sexList1"
+            v-for="item in initType"
             :key="item.value"
             :value="item.value"
             :label="item.label"
@@ -63,12 +69,15 @@
     </vxe-column>
     <vxe-column width="68" title="操作" align="center">
       <template #default="{ row }">
-       <!-- <el-button type="primary" link icon="Setting" size="small" class="table-button" >
-             策略
-       </el-button> -->
-       <el-button type="primary" link icon="Delete" size="small" class="table-button" >
-              删除
-       </el-button>
+        <el-button
+          type="primary"
+          link
+          icon="Delete"
+          size="small"
+          class="table-button"
+        >
+          删除
+        </el-button>
       </template>
     </vxe-column>
   </vxe-table>
@@ -80,92 +89,47 @@ export default {
 </script>
 <script setup>
 import { ref } from "vue";
-// const props = defineProps({
-//   data: {
-//     type: Object,
-//     default() {
-//       return {};
-//     },
-//   },
-// });
+const props = defineProps({
+  data: {
+    type: Array,
+  },
+});
 
-// const initType = ref(
-//   [
-//     { value: 'list', label: '数组' },
-//     { value: 'file', label: '文件' },
-//     { value: 'func', label: '函数' },
-//   ]
-// )
+const initType = ref([
+  { value: "sequential", label: "顺序" },
+  { value: "random", label: "随机" },
+  { value: "unique", label: "唯一" },
+]);
 
 const demo1 = ref({
   tableData: [
     {
-      id: 10001,
       name: "Test1",
-      nickname: "T1",
-      role: "Develop",
-      sex: "0",
-      sex2: ["0"],
-      num1: 40,
-      age: 28,
-      address: "Shenzhen",
-      date12: "",
-      date13: "",
+      value: "Develop1",
+      type: "unique",
     },
     {
-      id: 10002,
       name: "Test2",
-      nickname: "T2",
-      role: "Designer",
-      sex: "1",
-      sex2: ["0", "1"],
-      num1: 20,
-      age: 22,
-      address: "Guangzhou",
-      date12: "",
-      date13: "2020-08-20",
+      value: "Develop2",
+      type: "random",
     },
     {
-      id: 10003,
       name: "Test3",
-      nickname: "T3",
-      role: "Test",
-      sex: "0",
-      sex2: ["1"],
-      num1: 200,
-      age: 32,
-      address: "Shanghai",
-      date12: "2020-09-10",
-      date13: "",
-    },
-    {
-      id: 10004,
-      name: "Test4",
-      nickname: "T4",
-      role: "Designer",
-      sex: "1",
-      sex2: ["1"],
-      num1: 30,
-      age: 23,
-      address: "Shenzhen",
-      date12: "",
-      date13: "2020-12-04",
+      value: "Develop3",
+      type: "sequential",
     },
   ],
 });
 
-const sexList1 = ref([
-  { label: "", value: "" },
-  { label: "男", value: "1" },
-  { label: "女", value: "0" },
-]);
-
-const formatSex = (value) => {
-  if (value === "1") {
-    return "男";
+const formatOrder = (value) => {
+  if (value === "random") {
+    return "随机";
   }
-  if (value === "0") {
-    return "女";
+  if (value === "sequential") {
+    return "顺序";
+  }
+  if (value === "unique") {
+    return "唯一";
   }
   return "";
 };

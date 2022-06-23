@@ -72,41 +72,10 @@
         <el-form-item label="全局URL:" prop="base_url">
           <el-input v-model="formData.base_url" clearable placeholder="请输入全局服务URL" />
         </el-form-item>
-        <el-form-item label="环境配置:">
+        <el-form-item>
           <el-tabs v-model="activeName" class="demo-tabs" style="width: 100%;" @tab-click="handleClick">
-            <el-tab-pane label="变量" name="variables">
-              <vxe-table border show-overflow keep-source class="vartable-style" :data="dynamicForm.variable"
-                :column-config="{ resizable: false }" :edit-config="{ trigger: 'click', mode: 'cell', showIcon: false }"
-                size="mini" @edit-closed="handleAddVar" ref="Table">
-                <vxe-column type="seq" width="60"></vxe-column>
-                <vxe-column field="name" title="变量名" :edit-render="{autofocus: '.vxe-input--inner'}" width="120">
-                  <template #edit="{ row }">
-                    <vxe-input v-model="row.name" type="text"></vxe-input>
-                  </template>
-                </vxe-column>
-                <vxe-column field="type" title="变量类型" :edit-render="{}" width="120">
-                  <template #default="{ row }">
-                    <!-- <el-select v-model="row.type" transfer placeholder="选择变量类型" @change="handleSelectVarType(row)">
-                      <el-option v-for="item in initType" :key="item.value" :label="item.label" :value="item.value" />
-                    </el-select> -->
-                  </template>
-                </vxe-column>
-                <vxe-column field="value" title="变量值" :edit-render="{autofocus: '.vxe-input--inner'}">
-                  <template #default="{ row }">
-                    <span>{{ row.value }}</span>
-                  </template>
-                  <template #edit="{ row }">
-                    <vxe-input v-model="row.value" type="text"></vxe-input>
-                  </template>
-                </vxe-column>
-                <vxe-column width="60" title="操作" align="center">
-                  <template #default="{ row }">
-                      <el-icon>
-                        <Delete @click="handleDeleteVar(row)" />
-                      </el-icon>
-                  </template>
-                </vxe-column>
-              </vxe-table>
+            <el-tab-pane label="全局变量" name="variables">
+              <Variable :data="dynamicForm.variable"/>
             </el-tab-pane>
             <el-tab-pane label="参数化数据驱动" name="params">
               <Parameterize />
@@ -136,6 +105,7 @@ import { formatDate, Arr2Obj, Obj2ArrType } from '@/utils/format'
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import Parameterize from './components/params.vue'
+import Variable from './components/variable.vue'
 
 const type = ref("")
 const formData = ref({ name: '', base_url: '', variables: {} })
@@ -269,6 +239,20 @@ function closeDialog() {
   dialogFormVisible.value = false
 }
 
+const formatVarType = (value) => {
+  if(value === 'string'){
+    return '字符串'
+  }
+
+  if(value === "int"){
+    return "整数"
+  }
+
+  if(value === 'float'){
+    return '浮点数'
+  }
+}
+
 async function editConfig(row) {
   const res = await getConfigById({ id: row.id })
   if (res.code === 0) {
@@ -384,8 +368,8 @@ const handleClick = (tab, event) => {
 .config-form {
   margin-bottom: 5px;
 }
-.vartable-style.vxe-table .vxe-body--column.col_4 .vxe-cell {
+/* .vartable-style.vxe-table .vxe-body--column.col_4 .vxe-cell {
   padding:0 0;
-}
+} */
 </style>
 

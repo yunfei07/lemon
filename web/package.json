@@ -29,6 +29,7 @@
     "vue-router": "^4.0.0-0",
     "vue3-json-editor": "^1.1.4",
     "vxe-table": "^4.2.8",
+    "vxe-table-plugin-element": "^3.0.5",
     "xe-utils": "^3.5.4"
   },
   "devDependencies": {
