@@ -15,12 +15,12 @@ func (configService *ConfigService) CreateConfig(config configurine.Config)(err 
 }
 
 func (configService *ConfigService) DeleteConfig(config configurine.Config)(err error){
-	err = global.GVA_DB.Delete(&config).Error
+	err = global.GVA_DB.Unscoped().Delete(&config).Error
 	return err
 }
 
 func (configService *ConfigService) DeleteConfigByIds(ids request.IdsReq)(err error){
-	err = global.GVA_DB.Delete(&[]configurine.Config{},"id in ?",ids.Ids).Error
+	err = global.GVA_DB.Unscoped().Delete(&[]configurine.Config{},"id in ?",ids.Ids).Error
 	return err
 }
 

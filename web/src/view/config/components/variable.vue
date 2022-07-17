@@ -3,23 +3,25 @@
     border
     show-overflow
     keep-source
+    auto-resize
     :data="data"
-    :column-config="{ resizable: false }"
+    :column-config="{ resizable: false}"
     :edit-config="{ trigger: 'click', mode: 'cell', showIcon: false }"
     @edit-closed="handleAddVar"
     ref="Table"
   >
-    <vxe-column type="seq" width="60"></vxe-column>
+    <vxe-column type="seq" width="5%"></vxe-column>
     <vxe-column
       field="name"
       title="变量名"
+      width="30%"
       :edit-render="{ autofocus: '.vxe-input--inner' }"
     >
       <template #edit="{ row }">
-        <vxe-input v-model="row.name" type="text"></vxe-input>
+        <vxe-input v-model="row.name" type="text" placeholder="变量名"></vxe-input>
       </template>
     </vxe-column>
-    <vxe-column field="type" title="变量类型" :edit-render="{}" width="120">
+    <vxe-column field="type" title="变量类型" :edit-render="{}" width="15%">
       <template #default="{ row }">
         <span>{{ formatVarType(row.type) }}</span>
       </template>
@@ -42,16 +44,17 @@
     <vxe-column
       field="value"
       title="变量值"
+      min-width="40%"
       :edit-render="{ autofocus: '.vxe-input--inner' }"
     >
       <template #default="{ row }">
         <span>{{ row.value }}</span>
       </template>
       <template #edit="{ row }">
-        <vxe-input v-model="row.value" type="text"></vxe-input>
+        <vxe-input v-model="row.value" type="text" placeholder="变量值"></vxe-input>
       </template>
     </vxe-column>
-    <vxe-column width="68" title="操作" align="center">
+    <vxe-column width="10%" title="操作" align="center">
       <template #default="{ row }">
         <el-button type="primary" link icon="Delete" size="small" class="table-button" @click="handleDeleteVar(row)">
           删除
@@ -67,21 +70,16 @@ export default {
 </script>
 <script setup>
 import { ref } from "vue";
-const props = defineProps({
+import { types }from "./types"
+defineProps({
   data: Array,
 });
 
-const initType = ref(
-  [
-    { value: 'string', label: '字符串' },
-    { value: 'int', label: '整型' },
-    { value: 'float', label: '浮点数' },
-  ]
-)
-
+const initType = ref(types)
 const Table = ref(null)
+
 const handleAddVar = async () => {
-   const $table = Table.value
+  const $table = Table.value
   const tableData = await $table.getTableData().tableData
 
   if(tableData[tableData.length - 1].name.length !== 0){
@@ -95,7 +93,6 @@ const handleDeleteVar = async (row) => {
   await $table.remove(row)
 }
 const handleSelectVarType =  (row) => {
-  console.log(row)
   const $table = Table.value
   const tData =  $table.getTableData().tableData
   const index = tData.findIndex(item => item === row)
@@ -128,5 +125,9 @@ const formatVarType = (value) => {
     return '浮点数'
   }
 }
+
+defineExpose({
+  Table
+})
 </script>
 <style scoped></style>

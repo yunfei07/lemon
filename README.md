@@ -40,7 +40,10 @@
 
 ### 交流方式
 
-- 添加微信号(yangyunfei07)，加群交流共建。
+##### 微信交流群
+![wechat](docs/assets/Wechat.jpeg)
+
+- 添加微信，备注"加入lemon交流群"。
 
 
 ### RoadMap

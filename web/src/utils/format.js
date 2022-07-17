@@ -18,6 +18,33 @@ export const formatDate = (time) => {
   }
 }
 
+export const formatPickOrder = (value) => {
+  if (value === "random") {
+    return "随机";
+  }
+  if (value === "sequential") {
+    return "顺序";
+  }
+  if (value === "unique") {
+    return "唯一";
+  }
+  return "";
+}
+
+export const formatType = (value) => {
+   if(value === 'string'){
+    return '字符串'
+  }
+
+  if(value === "int"){
+    return "整数"
+  }
+
+  if(value === 'float'){
+    return '浮点数'
+  }
+}
+
 export const filterDict = (value, options) => {
   const rowLabel = options && options.filter(item => item.value === value)
   return rowLabel && rowLabel[0] && rowLabel[0].label
@@ -71,3 +98,4 @@ export const Obj2ArrType = (obj) => {
   }
   return arr
 }
+

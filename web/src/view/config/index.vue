@@ -64,7 +64,7 @@
           @size-change="handleSizeChange" />
       </div>
     </div>
-    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :title="title" width="65%">
+    <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" :destroy-on-close="true" :title="title" width="65%">
       <el-form ref="configForm" :model="formData" label-position="right" label-width="100px">
         <el-form-item label="环境名称:" prop="name">
           <el-input v-model="formData.name" clearable placeholder="请输入环境名称" />
@@ -75,10 +75,10 @@
         <el-form-item>
           <el-tabs v-model="activeName" class="demo-tabs" style="width: 100%;" @tab-click="handleClick">
             <el-tab-pane label="全局变量" name="variables">
-              <Variable :data="dynamicForm.variable"/>
+              <Variable :data="dynamicForm.variable" ref="variables"/>
             </el-tab-pane>
-            <el-tab-pane label="参数化数据驱动" name="params">
-              <Parameterize />
+            <el-tab-pane label="参数化设置" name="params">
+              <Parameterize :data="dynamicForm.parameters" :limit="limit" :pick="pick" ref="parameters"/>
             </el-tab-pane>
           </el-tabs>
         </el-form-item>
@@ -108,11 +108,25 @@ import Parameterize from './components/params.vue'
 import Variable from './components/variable.vue'
 
 const type = ref("")
-const formData = ref({ name: '', base_url: '', variables: {} })
+const formData = ref({
+  name: '',
+  base_url: '',
+  variables: {},
+  parameters:{},
+  parameters_setting:{},
+  headers:{},
+  environs:{},
+  think_time:{},
+  websocket:{},
+  export:{}
+})
 const dynamicForm = ref({
   variable: [{name:"",type:"string",value:""}] ,
+  parameters:[{name:"",type:"sequential",value:""}],
   config:[]
-  })
+})
+const variables = ref(null)
+const parameters = ref(null)
 
 // 搜索
 const page = ref(1)
@@ -142,17 +156,6 @@ function handleCurrentChange(val) {
   getTableData()
 }
 
-// 获取列表数据
-async function getTableData() {
-  const table = await getConfigList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
-  if (table.code === 0) {
-    tableData.value = table.data.list
-    total.value = table.data.total
-    page.value = table.data.page
-    pageSize.value = table.data.pageSize
-  }
-}
-
 getTableData()
 
 // 批量操作
@@ -161,52 +164,13 @@ function handleSelectionChange(val) {
   multipleSelection.value = val
 }
 
-// 删除
-const deleteVisible = ref(false)
-async function onDelete() {
-  const ids = multipleSelection.value.map(item => item.ID)
-  const res = await deleteConfigByIds({ ids })
-  if (res.code === 0) {
-    ElMessage({
-      type: 'success',
-      message: res.msg
-    })
-    if (tableData.value.length === ids.length && page.value > 1) {
-      page.value--
-    }
-    deleteVisible.value = false
-    getTableData()
-  }
-}
-
 // 弹窗相关
 const configForm = ref(null)
 const title = ref('新增环境')
 const dialogFormVisible = ref(false)
-const initType = ref(
-  [
-    { value: 'string', label: '字符串' },
-    { value: 'int', label: '整型' },
-    { value: 'float', label: '浮点数' },
-  ]
-)
-
-const Table = ref(null)
-async function handleAddVar(){
-  const $table = Table.value
-  const tableData = await $table.getTableData().tableData
-
-  if(tableData[tableData.length - 1].name.length !== 0){
-    const record = {name:"",type:"string",value:""}
-    const newRow = await $table.insertAt(record,-1)
-    await $table.setActiveCell(newRow,'name')
-  }
-}
-
-async function handleDeleteVar(row){
-  const $table = Table.value
-  await $table.remove(row)
-}
+const deleteVisible = ref(false)
+const limit = ref(0)
+const pick = ref("sequential")
 
 // 初始化弹窗表单
 function initForm() {
@@ -217,12 +181,15 @@ function initForm() {
     variables: {}
   }
   dynamicForm.value.variable = [{name:"",type:"string",value:""}]
+  dynamicForm.value.parameters = [{name:"",type:"sequential",value:""}]
 }
 
 function openDialog(key) {
   switch (key) {
     case 'create':
       title.value = '新增环境'
+      limit.value = 0
+      pick.value = "sequential"
       break
     case 'update':
       title.value = '编辑环境'
@@ -239,17 +206,30 @@ function closeDialog() {
   dialogFormVisible.value = false
 }
 
-const formatVarType = (value) => {
-  if(value === 'string'){
-    return '字符串'
+// 获取列表数据
+async function getTableData() {
+  const table = await getConfigList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  if (table.code === 0) {
+    tableData.value = table.data.list
+    total.value = table.data.total
+    page.value = table.data.page
+    pageSize.value = table.data.pageSize
   }
+}
 
-  if(value === "int"){
-    return "整数"
-  }
-
-  if(value === 'float'){
-    return '浮点数'
+async function onDelete() {
+  const ids = multipleSelection.value.map(item => item.ID)
+  const res = await deleteConfigByIds({ ids })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: res.msg
+    })
+    if (tableData.value.length === ids.length && page.value > 1) {
+      page.value--
+    }
+    deleteVisible.value = false
+    getTableData()
   }
 }
 
@@ -257,8 +237,18 @@ async function editConfig(row) {
   const res = await getConfigById({ id: row.id })
   if (res.code === 0) {
     formData.value = res.data.config
-    dynamicForm.value.variable = Obj2ArrType(res.data.config.variables)
-    dynamicForm.value.variable.push({name:"",type:"string",value:""})
+
+    if(res.data.config.variables !== null){
+      dynamicForm.value.variable = Obj2ArrType(res.data.config.variables)
+      dynamicForm.value.variable.push({name:"",type:"string",value:""})
+    }
+
+    if (res.data.config.parameters !== null){
+       dynamicForm.value.parameters = Obj2ArrType(res.data.config.parameters)
+       dynamicForm.value.parameters.push({name:"",type:"sequential",value:""})
+       limit.value = res.data.config.parameters_setting.limit
+       pick.value = res.data.config.parameters_setting.pick_order
+    }
   }
   openDialog('update')
 }
@@ -266,15 +256,28 @@ async function editConfig(row) {
 async function enterDialog() {
   configForm.value.validate(async valid => {
     if (valid) {
-      const $table = Table.value
-      const tData = await $table.getTableData().tableData
-      await tData.map((item,index) => {
+      const variableTable = variables.value.Table
+      const paramsTable = parameters.value.Table
+      const varData = await variableTable.getTableData().tableData
+      const paramsData = await paramsTable.getTableData().tableData
+      await varData.map((item,index) => {
         delete item["_X_ROW_KEY"]
         if (item.name.length === 0){
-          tData.splice(index,1)
+          varData.splice(index,1)
         }
       })
-      formData.value.variables = Arr2Obj(tData)
+
+      await paramsData.map((item,index) => {
+        delete item["_X_ROW_KEY"]
+        if (item.name.length === 0){
+          paramsData.splice(index,1)
+        }
+      })
+
+      formData.value.parameters_setting['limit'] = parseInt(parameters.value.limitValue)
+      formData.value.parameters_setting['pick_order'] = parameters.value.pickValue
+      formData.value.variables = Arr2Obj(varData)
+      formData.value.parameters = Arr2Obj(paramsData)
       switch (type.value) {
         case 'create':
           {
@@ -336,31 +339,10 @@ async function deleteConf(row) {
   })
 }
 
-async function handleSelectVarType(row) {
-  const $table = Table.value
-  const tData = await $table.getTableData().tableData
-  const index = tData.findIndex(item => item === row)
-  switch (tData[index].type) {
-    case 'int':
-      tData[index].value = parseInt(tData[index].value)
-      break
-    case 'float':
-      tData[index].value = parseFloat(tData[index].value)
-      break
-    case 'string':
-      tData[index].value = String(tData[index].value)
-      break
-    default:
-      tData[index].value = String(tData[index].value)
-      break
-  }
-}
-
 // tabs相关操作
 const activeName = ref('variables')
-
 const handleClick = (tab, event) => {
-  console.log(tab, event)
+  // console.log(tab, event)
 }
 
 </script>
@@ -368,8 +350,5 @@ const handleClick = (tab, event) => {
 .config-form {
   margin-bottom: 5px;
 }
-/* .vartable-style.vxe-table .vxe-body--column.col_4 .vxe-cell {
-  padding:0 0;
-} */
 </style>
 
