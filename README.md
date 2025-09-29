@@ -37,18 +37,6 @@
 -   中间件: [MySQL](https://www.mysql.com/)
 -   测试引擎: [Httprunner](https://github.com/httprunner/httprunner)
 
-
-### 交流方式
-
-##### 微信交流群
-![wechat](docs/assets/Wechat.jpeg)
-
-- 添加微信，备注"加入lemon交流群"。
-
-
-### RoadMap
-
-
 ### 问题和建议
 
 问题和建议反馈：[Github Issues](https://github.com/yunfei07/lemon/issues/new)
