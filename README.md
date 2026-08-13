@@ -1,3 +1,5 @@
+
+
 # Lemon
 `Lemon` 是一站式开源持续测试平台，支持接口测试、性能测试、用例管理、覆盖率测试等。
 
@@ -20,7 +22,7 @@
 
 1. 新建数据库，并导入server/sql/lemon.sql文件
 2. 修改server/config.yaml文件中数据库相关配置
-3. 如果是开发，需要执行`go run main.go`,启动服务
+3. 如果是开发，需要执行`go run main.go`,启动服务（默认端口 8888）
 4. 如果是部署，需要执行`GOOS=linux GOARCH=amd64 go build -o lemon`生成部署文件
 
 ##### web端
